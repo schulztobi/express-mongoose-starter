@@ -39,6 +39,11 @@ server.patch('/students/:studentName', (req,res) => {
     })
 })
 
+server.delete('/students/:studentName', (req,res) => {
+    const { studentName} = req.params
+    Student.deleteOne({ name: studentName}).then(updatedStudent => res.json(updatedStudent))
+})
+
 const port = 4000
 
 server.listen(port,()=>{
