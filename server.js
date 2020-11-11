@@ -22,10 +22,17 @@ server.get('/students/:studentName',(req,res)=>{
     Student.find({ name:studentName}).then(student => res.json(student));
 });
 
+
 server.post('/students/:studentName', (req,res) =>{
     const { studentName } = req.params;
     const student = new Student({ name: studentName });
     student.save().then(() => res.json(student))
+});
+
+server.post('/students', (req,res) =>{
+    const newStudent = req.body;
+    const student = new Student(newStudent);
+    student.save().then((student) => res.json(student))
 });
 
 server.patch('/students/:studentName', (req,res) => {
@@ -39,10 +46,12 @@ server.patch('/students/:studentName', (req,res) => {
     })
 })
 
-server.delete('/students/:studentName', (req,res) => {
-    const { studentName} = req.params
-    Student.deleteOne({ name: studentName}).then(updatedStudent => res.json(updatedStudent))
+server.delete('/students/:id', (req,res) => {
+    const { id} = req.params
+    Student.deleteOneById({ _id:id}).then(deletedStudent => res.json(deletedStudent))
 })
+
+
 
 const port = 4000
 
